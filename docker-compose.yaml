@@ -143,6 +143,26 @@ services:
       bloom-postgres:
         condition: service_healthy # The service is working and still running
 
+  bloom-auth:
+    container_name: bloom_auth
+    hostname: bloom-auth
+    image: quay.io/keycloak/keycloak:25.0.1
+
+    command: ["start-dev","--import-realm","--verbose"]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_LOGLEVEL: DEBUG
+    networks:
+      - bloom_net
+    ports:
+      - 8080:8080
+    volumes:
+      - ./data/keycloak:/opt/keycloak/data/import
+    depends_on:
+      bloom-postgres:
+        condition: service_healthy # The service is working and still running
+
 volumes:
   bloom-data:
   bloom-redis:
