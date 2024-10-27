@@ -1,5 +1,5 @@
 from contextlib import AbstractContextManager
-from typing import Any, Generator, Union
+from typing import Union
 
 from bloom.domain.vessel import Vessel
 from bloom.infra.database import sql_model
@@ -7,7 +7,24 @@ from dependency_injector.providers import Callable
 from sqlalchemy import func, select, update, and_
 from sqlalchemy.orm import Session
 
+from bloom.infra.repository import GenericRepository, GenericSqlRepository
+from abc import ABC, abstractmethod
 
+from bloom.domain.vessel import Vessel
+from bloom.infra.database import sql_model
+
+
+
+
+class VesselRepositoryBase(GenericRepository[Vessel], ABC):
+    pass
+
+class VesselRepository(GenericSqlRepository[Vessel,sql_model.Vessel],VesselRepositoryBase):
+    def __init__(self, session: Session) -> None:
+        super().__init__(session, sql_model.Vessel)
+
+
+"""
 class VesselRepository:
     def __init__(
             self,
@@ -32,9 +49,9 @@ class VesselRepository:
             return VesselRepository.map_to_domain(vessel)
 
     def get_vessels_list(self, session: Session) -> list[Vessel]:
-        """
+        """"""
         Liste l'ensemble des vessels actifs
-        """
+        """"""
         stmt = select(sql_model.Vessel).where(sql_model.Vessel.tracking_activated == True)
         e = session.execute(stmt).scalars()
         if not e:
@@ -42,9 +59,9 @@ class VesselRepository:
         return [VesselRepository.map_to_domain(vessel) for vessel in e]
 
     def get_all_vessels_list(self, session: Session) -> list[Vessel]:
-        """
+        """"""
         Liste l'ensemble des vessels actifs ou inactifs
-        """
+        """"""
         stmt = select(sql_model.Vessel)
         e = session.execute(stmt).scalars()
 
@@ -127,3 +144,4 @@ class VesselRepository:
             check=vessel.check,
             length_class=vessel.length_class,
         )
+    """
