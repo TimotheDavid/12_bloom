@@ -57,6 +57,7 @@ class SegmentRepository:
         ).filter(
             sql_model.Segment.last_vessel_segment == True
         )
+        print(stmt.compile(compile_kwargs={"literal_binds": True}))
         result = session.execute(stmt)
         if result is not None :
             return [VesselLastPosition(
