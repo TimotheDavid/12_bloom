@@ -227,7 +227,7 @@ application with you favorite web browser
 
 ## Official source code
 
-You cna find official source code on [Github Repository](https://github.com/dataforgoodfr/12_bloom/)
+You can find official source code on [Github Repository](https://github.com/dataforgoodfr/12_bloom/)
 
 ## Contributing
 
